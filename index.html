@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symulator R&G SRG-6000P</title>
+    <style>
+        :root {
+            --bg-color: #1a1c1e;
+            --screen-bg: #0c2326;
+            --text-color: #00ffcc;
+            --text-dim: #00aa99;
+            --btn-bg: #2d3238;
+            --btn-active: #3e454f;
+            --border-color: #444;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: #fff;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            user-select: none;
+        }
+
+        /* Obudowa urządzenia SRG-6000 */
+        .sterownik-container {
+            width: 720px;
+            background: linear-gradient(135deg, #333, #111);
+            border: 6px solid #222;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+            position: relative;
+        }
+
+        .logo-area {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            font-weight: bold;
+            color: #888;
+            margin-bottom: 10px;
+            padding: 0 5px;
+        }
+
+        .logo-rg { color: #d11; }
+
+        /* Ekran Dotykowy LCD */
+        .ekran {
+            width: 100%;
+            height: 380px;
+            background-color: var(--screen-bg);
+            border: 3px solid #000;
+            box-sizing: border-box;
+            position: relative;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Górna belka statusu */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--text-dim);
+            padding-bottom: 5px;
+            font-size: 13px;
+            color: var(--text-dim);
+        }
+
+        .status-icons span {
+            margin-left: 8px;
+            color: var(--text-color);
+        }
+
+        /* Główny obszar roboczy interfejsu */
+        .ekran-main {
+            flex-grow: 1;
+            margin-top: 10px;
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 10px;
+        }
+
+        .tresc {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: var(--text-color);
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        /* Menu boczne (Zakładki dotykowe) */
+        .menu-boczne {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .btn-menu {
+            background-color: #113337;
+            border: 1px solid var(--text-dim);
+            color: var(--text-color);
+            padding: 8px;
+            font-size: 12px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .btn-menu:active, .btn-menu.active {
+            background-color: var(--text-color);
+            color: var(--screen-bg);
+        }
+
+        /* Klawiatura i polskie formularze */
+        .input-box {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--text-dim);
+            padding: 8px;
+            color: var(--text-color);
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 10px;
+            min-height: 24px;
+        }
+
+        .grid-klawiatura {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+        }
+
+        .btn-key {
+            background-color: #1a4449;
+            border: 1px solid var(--text-dim);
+            color: var(--text-color);
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn-key:active {
+            background-color: var(--text-color);
+            color: var(--screen-bg);
+        }
+
+        /* Sekcja jazdy / Przystanki */
+        .przystanek-aktualny {
+            font-size: 22px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 5px var(--text-color);
+        }
+        .przystanek-nastepny {
+            font-size: 16px;
+            color: #00b3ff;
+            margin-top: 5px;
+        }
+
+        /* Dolna belka nawigacji na ekranie */
+        .ekran-footer {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid var(--text-dim);
+            padding-top: 5px;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        /* Czytnik kart pod ekranem */
+        .czytnik-rfid {
+            margin-top: 15px;
+            background: #222;
+            border: 2px solid #333;
+            border-radius: 6px;
+            padding: 10px;
